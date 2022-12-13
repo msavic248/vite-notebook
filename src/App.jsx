@@ -1,32 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
+import { supabase } from "./supabaseClient";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+
+  async function checkUserOnStartUp() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    setUserEmail(user.email)
+    if(userEmail != "") {
+      setLoggedIn(true);
+    }
+  }
+
+  useEffect(() => {
+    checkUserOnStartUp();
+  })
+
+  async function handleLoginClick() {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+
+    setLoggedIn(true);
+  };
+
+  async function handleLogoutClick() {
+    await supabase.auth.signOut();
+
+    setLoggedIn(false);
+    setUserEmail("");
+  }
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>Notes</h1>
+      {loggedIn ? (
+        <div>
+          <p>Welcome {userEmail}</p>
+          <button onClick={handleLogoutClick}>Sign out</button>
+        </div>
+      ) : (
+        <button onClick={handleLoginClick}>Sign in with Google</button>
+      )}
     </div>
   )
 }
