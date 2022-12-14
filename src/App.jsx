@@ -6,8 +6,8 @@ import Notes from "./components/Notes";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
-  
+  // const [userEmail, setUserEmail] = useState("");
+  const [user, setUser] = useState(null);
 
   async function checkUserOnStartUp() {
     try {
@@ -15,19 +15,24 @@ function App() {
         data: { user },
       } = await supabase.auth.getUser();
 
-      setUserEmail(user.email)
+      console.log(user)
+      setUser(user);
+      
     } catch(error) {
       console.error(error)
-    } finally {
-      if(userEmail != "") {
-        setLoggedIn(true);
-      }
     }
   }
 
   useEffect(() => {
     checkUserOnStartUp();
-  })
+
+  }, [])
+
+  useEffect(() => {
+    if(user != null){
+      setLoggedIn(true)
+    }
+  }, [user])
 
   async function handleLoginClick() {
     try {
@@ -36,7 +41,6 @@ function App() {
       });
 
       setLoggedIn(true);
-      
     } catch(error) {
       console.error(error)
     }
@@ -46,8 +50,7 @@ function App() {
     try {
       await supabase.auth.signOut();
 
-      setLoggedIn(false);
-      setUserEmail("");
+      setLoggedIn(false)
     } catch(error) {
       console.error(error)
     }
@@ -55,11 +58,11 @@ function App() {
 
   return (
     <div className="app">
-      <Navbar loggedIn={loggedIn} onLoginClick={handleLoginClick} onLogoutClick={handleLogoutClick}/>
+      <Navbar user={user} loggedIn={loggedIn} onLoginClick={handleLoginClick} onLogoutClick={handleLogoutClick}/>
       
       {loggedIn ? (
         <div>
-          <h3>Welcome {userEmail}</h3>
+          <h3>Welcome {user.identities[0].identity_data.name}</h3>
           <Notes />
         </div>
       ) : (
