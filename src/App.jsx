@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import { supabase } from "./supabaseClient";
+import Navbar from './components/Navbar';
 import Notes from "./components/Notes";
 
 function App() {
@@ -28,8 +29,6 @@ function App() {
     checkUserOnStartUp();
   })
 
-  
-
   async function handleLoginClick() {
     try {
       await supabase.auth.signInWithOAuth({
@@ -56,16 +55,18 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Vite Notebook</h1>
+      <Navbar loggedIn={loggedIn} onLoginClick={handleLoginClick} onLogoutClick={handleLogoutClick}/>
       
       {loggedIn ? (
         <div>
-          <p>Welcome {userEmail}</p>
-          <button onClick={handleLogoutClick}>Sign out</button>
+          <h3>Welcome {userEmail}</h3>
           <Notes />
         </div>
       ) : (
-        <button onClick={handleLoginClick}>Sign in with Google</button>
+        <div>
+          <h3>Welcome Guest</h3>
+          <p>Please sign in to view notes</p>
+        </div>
       )}
 
     </div>
