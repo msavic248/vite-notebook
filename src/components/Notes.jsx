@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { supabase } from "../supabaseClient";
 import Note from "./Note";
+import CreateNote from './CreateNote';
 
-function Notes() {
+function Notes({user}) {
     const [notes, setNotes] = useState([]);
 
     useEffect(() => {
@@ -30,6 +31,7 @@ function Notes() {
                     )
             })}
             </div>
+            <CreateNote user={user}/>
         </div>
     )
 }

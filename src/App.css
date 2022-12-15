@@ -6,7 +6,7 @@
 }
 
 nav {
-  background-color: darkslategray;
+  background-color: #333;
   padding: 0.5em 1em 0.5em 1em;
   border-bottom: 1px solid lightgrey;
   display: flex;
@@ -96,4 +96,11 @@ button {
 
 .notetext > p{
   font-size: 10px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }

@@ -6,7 +6,6 @@ import Notes from "./components/Notes";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  // const [userEmail, setUserEmail] = useState("");
   const [user, setUser] = useState(null);
 
   async function checkUserOnStartUp() {
@@ -63,7 +62,7 @@ function App() {
       {loggedIn ? (
         <div>
           <h3>Welcome {user.identities[0].identity_data.name}</h3>
-          <Notes />
+          <Notes user={user}/>
         </div>
       ) : (
         <div>
