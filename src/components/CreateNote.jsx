@@ -9,7 +9,7 @@ function CreateNote({user}) {
     const id = user.id;
 
     async function handleFormSubmit(event) {
-        // event.preventDefault();
+        event.preventDefault();
 
         const {error} = await supabase
         .from("notes")
