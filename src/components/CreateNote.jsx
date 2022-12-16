@@ -19,6 +19,10 @@ function CreateNote({user}) {
             owner: id
         });
 
+        if(error) {
+            console.log(`Failed to insert note: ${error}`)
+        }
+
         setTitle("");
         setContent("");
     }

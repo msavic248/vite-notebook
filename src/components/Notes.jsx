@@ -5,6 +5,15 @@ import CreateNote from './CreateNote';
 
 function Notes({user}) {
     const [notes, setNotes] = useState([]);
+    const [insert, setInsert] = useState("");
+
+    supabase
+    .channel('public:notes')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notes' }, payload => {
+        console.log('Change received!', payload)
+        setInsert(payload)
+    })
+    .subscribe()
 
     useEffect(() => {
         let cancelFetch = false;
@@ -19,7 +28,7 @@ function Notes({user}) {
         return () => {
             cancelFetch = true;
         }
-    }, [])
+    }, [ ,insert])
 
     return (
         <div>
