@@ -14,7 +14,6 @@ function App() {
         data: { user },
       } = await supabase.auth.getUser();
 
-      console.log(user)
       setUser(user);
       
     } catch(error) {

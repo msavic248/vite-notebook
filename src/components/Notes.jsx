@@ -1,19 +1,26 @@
 import { useState, useEffect } from 'react'
 import { supabase } from "../supabaseClient";
+import { Link, Routes, Route, useNavigate, useLocation } from "react-router-dom"
 import Note from "./Note";
 import CreateNote from './CreateNote';
+import DeleteNote from './DeleteNote';
 
 function Notes({user}) {
     const [notes, setNotes] = useState([]);
-    const [insert, setInsert] = useState("");
+    const [insert, setInsert] = useState(false);
+    const [extract, setExtract] = useState(false);
+    const navigate = useNavigate();
+    let location = useLocation();
 
     supabase
     .channel('public:notes')
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notes' }, payload => {
-        console.log('Change received!', payload)
-        setInsert(payload)
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notes' }, handleRecordInserted => {
+        setInsert(true)
     })
-    .subscribe()
+    .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'notes' }, handleRecordInserted => {
+        setExtract(true)
+    })
+    .subscribe();
 
     useEffect(() => {
         let cancelFetch = false;
@@ -24,11 +31,21 @@ function Notes({user}) {
                 setNotes(response.data);
             }
         });
+
+        if(insert) {
+            navigate("/");
+            setInsert(false);
+        }
+
+        if(extract) {
+            navigate("/");
+            setExtract(false);
+        }
             
         return () => {
             cancelFetch = true;
         }
-    }, [ ,insert])
+    }, [ , insert, extract])
 
     return (
         <div>
@@ -36,11 +53,21 @@ function Notes({user}) {
             <div className="notes">
                 {notes.map(note => {
                     return (
-                        <Note key={note.id} note={note} />
+                        <Routes key={note.id}>
+                            <Route path="/" element={
+                                <Link to={note.id}>
+                                    <Note note={note} />
+                                </Link>
+                            }/>
+                            <Route path={note.id} element={
+                                <Note note={note}/>
+                            } />
+                        </Routes>
                     )
-            })}
+                })}
             </div>
             <CreateNote user={user}/>
+            {location.pathname != "/" && <DeleteNote location={location}/>}
         </div>
     )
 }
