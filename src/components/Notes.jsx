@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from "../supabaseClient";
-import { Link, Routes, Route, useNavigate, useLocation } from "react-router-dom"
+import { Link, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Note from "./Note";
 import CreateNote from './CreateNote';
 import UpdateNote from './UpdateNote';

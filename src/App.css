@@ -11,10 +11,19 @@ nav {
   border-bottom: 1px solid lightgrey;
   display: flex;
   height: 6.5vh;
-  align-content: flex-start;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+nav > h1 {
+  margin: auto;
+  padding-left: 34px;
+}
+
+nav > h1:hover {
+  transform: scale(1.1);
+  transition: 300ms ease-out;
 }
 
 .dropdown {
