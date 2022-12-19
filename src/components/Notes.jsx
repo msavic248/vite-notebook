@@ -3,11 +3,13 @@ import { supabase } from "../supabaseClient";
 import { Link, Routes, Route, useNavigate, useLocation } from "react-router-dom"
 import Note from "./Note";
 import CreateNote from './CreateNote';
+import UpdateNote from './UpdateNote';
 import DeleteNote from './DeleteNote';
 
 function Notes({user}) {
     const [notes, setNotes] = useState([]);
     const [insert, setInsert] = useState(false);
+    const [update, setUpdate] = useState(false);
     const [extract, setExtract] = useState(false);
     const navigate = useNavigate();
     let location = useLocation();
@@ -16,6 +18,9 @@ function Notes({user}) {
     .channel('public:notes')
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notes' }, handleRecordInserted => {
         setInsert(true)
+    })
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'notes' }, handleRecordInserted => {
+        setUpdate(true)
     })
     .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'notes' }, handleRecordInserted => {
         setExtract(true)
@@ -37,6 +42,11 @@ function Notes({user}) {
             setInsert(false);
         }
 
+        if(update) {
+            navigate(0);
+            setUpdate(false);
+        }
+
         if(extract) {
             navigate("/");
             setExtract(false);
@@ -45,7 +55,7 @@ function Notes({user}) {
         return () => {
             cancelFetch = true;
         }
-    }, [ , insert, extract])
+    }, [ , insert, update, extract])
 
     return (
         <div>
@@ -66,8 +76,15 @@ function Notes({user}) {
                     )
                 })}
             </div>
-            <CreateNote user={user}/>
-            {location.pathname != "/" && <DeleteNote location={location}/>}
+            <div className="buttons">
+                <CreateNote user={user}/>
+                {location.pathname != "/" 
+                && <>
+                    <UpdateNote location={location}/>
+                    <DeleteNote location={location}/>
+                </>}
+            </div>
+            
         </div>
     )
 }

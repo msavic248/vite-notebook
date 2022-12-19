@@ -1,23 +1,22 @@
 import { useState } from "react";
 import { supabase } from "../supabaseClient";
 
-function CreateNote({user}) {
+function UpdateNote({location}) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [show, setShow] = useState(false);
-
-    const id = user.id;
+    const id = location.pathname.slice(1);
 
     async function handleFormSubmit(event) {
         event.preventDefault();
 
         const {error} = await supabase
         .from("notes")
-        .insert({
+        .update({
             title: title,
             content: content,
-            owner: id
-        });
+        })
+        .eq('id', id);
 
         if(error) {
             console.log(`Failed to insert note: ${error}`)
@@ -38,16 +37,16 @@ function CreateNote({user}) {
 
     return (
         <div>
-            <button onClick={handleButtonClick}>Create Note</button>
+            <button onClick={handleButtonClick}>Update Note</button>
             {show && <form onSubmit={handleFormSubmit}>
-                <h3>Create a new Note</h3>
-                
-                <input type="text" placeholder="Title" value={title} onChange={event => setTitle(event.target.value)} />
-                <textarea placeholder="Content" value={content} onChange={event => setContent(event.target.value)} />
-                <button type="submit">Create</button>
-            </form>}
+                    <h3>Update Note</h3>
+                    
+                    <input type="text" placeholder="Title" value={title} onChange={event => setTitle(event.target.value)} />
+                    <textarea placeholder="Content" value={content} onChange={event => setContent(event.target.value)} />
+                    <button type="submit">Update</button>
+                </form>}
         </div>
     )
 }
 
-export default CreateNote
+export default UpdateNote
