@@ -16,12 +16,13 @@ nav {
   align-items: center;
 }
 
-nav > h1 {
-  margin: auto;
-  padding-left: 34px;
+.nav-options {
+  display: flex;
+  align-items: center;
+  gap: 2em;
 }
 
-nav > h1:hover {
+.nav-options > h2:hover {
   transform: scale(1.1);
   transition: 300ms ease-out;
 }
