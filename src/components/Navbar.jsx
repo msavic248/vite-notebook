@@ -18,11 +18,10 @@ function Navbar(props) {
         if(isLightTheme) {
             document.body.classList.add("light");
             document.querySelector("nav").classList.add("light");
-            document.querySelector(".notetext").classList.add("light");
+
         } else {
             document.body.classList.remove("light");
             document.querySelector("nav").classList.remove("light");
-            document.querySelector(".notetext").classList.remove("light");
         }
     }, [isLightTheme]);
 
