@@ -75,6 +75,10 @@ nav.dark .dropdown-content button{
   color: #f9f9f9;
 }
 
+.dropdown button {
+  color: #f9f9f9;
+}
+
 @media screen and (max-width: 768px) {
   nav {
     display: block;
