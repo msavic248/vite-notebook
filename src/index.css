@@ -74,3 +74,34 @@ nav.dark a, nav.dark button {
 nav.dark .dropdown-content button{
   color: #f9f9f9;
 }
+
+@media screen and (max-width: 768px) {
+  nav {
+    display: block;
+    height: auto;
+  }
+
+  nav > h1 {
+    display: none;
+  }
+
+  .nav-options {
+    justify-content: space-between;
+  }
+
+  .nav-options h2 {
+    order: 2;
+  }
+
+  .nav-options > button {
+    order: 1;
+    margin: 0;
+    padding: 0;
+    width: 2em;
+    height: 2em;
+  }
+
+  .dropdown {
+    order: 3;
+  }
+}

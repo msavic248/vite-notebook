@@ -25,7 +25,7 @@ nav.dark {
 .nav-options {
   display: flex;
   align-items: center;
-  gap: 2em;
+  gap: 2.5em;
 }
 
 .nav-options > h2:hover {
@@ -71,6 +71,10 @@ p {
 
 button {
   margin: 1rem;
+}
+
+.title {
+  padding-top: 1em;
 }
 
 .notes {

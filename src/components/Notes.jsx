@@ -59,7 +59,7 @@ function Notes({user}) {
 
     return (
         <div>
-            <h2>Notes</h2>
+            <h2 className="title">Notes</h2>
             <div className="notes">
                 {notes.map(note => {
                     return (
