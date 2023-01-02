@@ -4,26 +4,26 @@ import { Expand } from "@theme-toggles/react";
 
 function Navbar(props) {
     const {user, loggedIn, onLoginClick, onLogoutClick} = props;
-    const [isLightTheme, setIsLightTheme] = useState(false);
+    const [isDarkTheme, setIsDarkTheme] = useState(false);
 
     useEffect(() => {
-        const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+        const prefersLight = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
         if(prefersLight) {
-            setIsLightTheme(true);
+            setIsDarkTheme(true);
         }
     }, []);
 
     useEffect(() => {
-        if(isLightTheme) {
-            document.body.classList.add("light");
-            document.querySelector("nav").classList.add("light");
+        if(isDarkTheme) {
+            document.body.classList.add("dark");
+            document.querySelector("nav").classList.add("dark");
 
         } else {
-            document.body.classList.remove("light");
-            document.querySelector("nav").classList.remove("light");
+            document.body.classList.remove("dark");
+            document.querySelector("nav").classList.remove("dark");
         }
-    }, [isLightTheme]);
+    }, [isDarkTheme]);
 
     return (<nav>
         <h1>Vite Notebook</h1>
@@ -33,7 +33,7 @@ function Navbar(props) {
                 <h2>
                     <Link to="/">Home</Link>
                 </h2>
-                <Expand reversed toggled={isLightTheme} toggle={setIsLightTheme} />
+                <Expand toggled={isDarkTheme} toggle={setIsDarkTheme} />
                 <div className="dropdown">
                     <img src={user.identities[0].identity_data.avatar_url} width="32px" height="32px"/>
                     <div className="dropdown-content">
@@ -45,7 +45,7 @@ function Navbar(props) {
                 </>
             ) : (
                 <>
-                <Expand toggled={isLightTheme} toggle={setIsLightTheme} />
+                <Expand toggled={isDarkTheme} toggle={setIsDarkTheme} />
                 <div className="dropdown">
                     <button onClick={onLoginClick}>Sign in with Google</button>
                 </div>

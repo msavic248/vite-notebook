@@ -6,9 +6,9 @@
 }
 
 nav {
-  background-color: #333;
+  background-color: wheat;
   padding: 0.5em 1em 0.5em 1em;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid #333;
   display: flex;
   height: 6.5vh;
   flex-direction: row;
@@ -17,9 +17,9 @@ nav {
   transition: 300ms ease-out;
 }
 
-nav.light {
-  background-color: wheat;
-  border-bottom: 1px solid #333;
+nav.dark {
+  background-color: #333;
+  border-bottom: 1px solid lightgray;
 }
 
 .nav-options {
